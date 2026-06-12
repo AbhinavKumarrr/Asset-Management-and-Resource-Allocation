@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Boxes, ArrowRight } from "lucide-react";
@@ -15,9 +15,13 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  if (user) navigate("/", { replace: true });
-
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -35,17 +39,16 @@ export default function Login() {
 
   function fillDemo(role: "admin" | "user") {
     if (role === "admin") {
-      setEmail("admin@assetflow.dev");
+      setEmail("abhinav@iitr.ac.in");
       setPassword("admin123");
     } else {
-      setEmail("ananya@assetflow.dev");
+      setEmail("aditya@iitr.ac.in");
       setPassword("user123");
     }
   }
 
   return (
     <div className="flex min-h-screen">
-      {/* Left brand panel */}
       <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 p-12 text-white lg:flex">
         <div className="flex items-center gap-2.5">
           <div className="grid h-10 w-10 place-items-center rounded-lg bg-white/15">
@@ -53,6 +56,7 @@ export default function Login() {
           </div>
           <span className="text-xl font-bold">AssetFlow</span>
         </div>
+
         <div>
           <h1 className="text-4xl font-extrabold leading-tight">
             Smart Asset Management & Resource Allocation
@@ -62,11 +66,14 @@ export default function Login() {
             visibility — all in one centralized platform.
           </p>
         </div>
-        <p className="text-sm text-brand-200">Cultural Council · Resource Management Platform</p>
+
+        <p className="text-sm text-brand-200">
+          Cultural Council · Resource Management Platform
+        </p>
+
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-white/10 blur-2xl" />
       </div>
 
-      {/* Right form panel */}
       <div className="flex w-full items-center justify-center px-6 lg:w-1/2">
         <div className="w-full max-w-sm">
           <div className="mb-8">
@@ -82,40 +89,54 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                placeholder=""
                 required
                 autoFocus
               />
             </Field>
+
             <Field label="Password">
               <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder=""
                 required
               />
             </Field>
-            <Button type="submit" loading={loading} className="w-full" icon={<ArrowRight className="h-4 w-4" />}>
+
+            <Button
+              type="submit"
+              loading={loading}
+              className="w-full"
+              icon={<ArrowRight className="h-4 w-4" />}
+            >
               Sign in
             </Button>
           </form>
 
           <div className="mt-6 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-3 text-xs text-slate-500">
-            <p className="mb-2 font-medium text-slate-600">Demo accounts (click to fill):</p>
+            <p className="mb-2 font-medium text-slate-600">
+              Demo accounts (click to fill):
+            </p>
             <div className="flex gap-2">
               <button
+                type="button"
                 onClick={() => fillDemo("admin")}
                 className="rounded-md border border-slate-300 bg-white px-2.5 py-1 font-medium text-slate-700 hover:bg-slate-50"
               >
                 Admin
               </button>
               <button
+                type="button"
                 onClick={() => fillDemo("user")}
                 className="rounded-md border border-slate-300 bg-white px-2.5 py-1 font-medium text-slate-700 hover:bg-slate-50"
               >
                 User
               </button>
+            </div>
+
+            <div className="mt-3 space-y-1 text-slate-500">
             </div>
           </div>
 

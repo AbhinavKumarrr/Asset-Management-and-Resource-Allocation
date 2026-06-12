@@ -4,35 +4,89 @@
 
 @layer base {
   html {
-    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
   }
+
   body {
-    @apply bg-slate-50 text-slate-800 font-sans;
+    @apply bg-slate-50 text-slate-900 antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(99, 102, 241, 0.12), transparent 28%),
+      radial-gradient(circle at top right, rgba(14, 165, 233, 0.10), transparent 24%),
+      linear-gradient(to bottom, #f8fafc, #eef2ff 72%, #f8fafc);
+  }
+
+  /* Ensures all borders use the slate color by default when border utilities are applied */
+  *, ::before, ::after {
+    @apply border-slate-200;
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.18);
   }
 }
 
 @layer components {
-  .input {
-    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800
-      placeholder:text-slate-400 shadow-sm transition
-      focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200;
+  /* Layout & Panels */
+  .page-shell {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
-  .label {
-    @apply mb-1.5 block text-sm font-medium text-slate-700;
+
+  .glass-panel {
+    @apply rounded-3xl border border-white/60 bg-white/75 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl;
   }
+
+  .table-shell {
+    @apply overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm;
+  }
+
+  .card-hover {
+    @apply transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(15,23,42,0.12)];
+  }
+
   .card {
-    @apply rounded-xl border border-slate-200 bg-white shadow-card;
-  }
+  transition: all 0.3s ease;
 }
 
-/* Thin, unobtrusive scrollbars */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
 }
-::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-slate-300;
+
+  /* Typography */
+  .section-title {
+    @apply text-lg font-semibold tracking-tight text-slate-900;
+  }
+
+  .input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  outline: none;
+  transition: 0.2s;
 }
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-400;
+
+.input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+
+  /* Form Elements */
+  .input-soft {
+    @apply h-11 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm shadow-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:scale-[1.01] hover:shadow-xl active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 active:scale-95;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide;
+  }
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -26,16 +26,18 @@ export default function AssetDetail() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["asset", id],
     queryFn: async () => (await api.get<{ asset: Asset }>(`/assets/${id}`)).data.asset,
+    enabled: !!id,
   });
 
   const qr = useQuery({
     queryKey: ["asset-qr", id],
     queryFn: async () => (await api.get<{ qr: string }>(`/assets/${id}/qr`)).data.qr,
-    enabled: qrOpen,
+    enabled: qrOpen && !!id,
   });
 
   if (isLoading) return <Spinner label="Loading asset…" />;
   if (isError || !data) return <ErrorState message="Asset not found." />;
+
   const asset = data;
   const available = asset.availableQuantity > 0 && asset.status === "AVAILABLE";
 
@@ -49,16 +51,20 @@ export default function AssetDetail() {
       </Link>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Main */}
         <div className="lg:col-span-2">
           <Card>
-            <div className="flex h-56 items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
+            <div className="flex h-[420px] items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 p-4">
               {asset.imageUrl ? (
-                <img src={asset.imageUrl} alt={asset.name} className="h-full w-full object-cover" />
+                <img
+                  src={asset.imageUrl}
+                  alt={asset.name}
+                  className="max-h-full max-w-full object-contain"
+                />
               ) : (
                 <Boxes className="h-20 w-20 text-slate-300" />
               )}
             </div>
+
             <CardBody>
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -71,17 +77,22 @@ export default function AssetDetail() {
                 </div>
               </div>
 
-              <p className="mt-4 text-slate-600">{asset.description || "No description provided."}</p>
+              <p className="mt-4 text-slate-600">
+                {asset.description || "No description provided."}
+              </p>
 
               <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 <Info label="Available" value={`${asset.availableQuantity} / ${asset.totalQuantity}`} />
-                <Info label="Location" value={asset.location ?? "—"} icon={<MapPin className="h-4 w-4" />} />
+                <Info
+                  label="Location"
+                  value={asset.location ?? "—"}
+                  icon={<MapPin className="h-4 w-4" />}
+                />
                 <Info label="Added" value={formatDate(asset.createdAt)} />
               </div>
             </CardBody>
           </Card>
 
-          {/* Maintenance history (visible to admins) */}
           {isAdmin && asset.maintenance && asset.maintenance.length > 0 && (
             <Card className="mt-6">
               <CardHeader title="Maintenance & Damage History" />
@@ -104,7 +115,6 @@ export default function AssetDetail() {
           )}
         </div>
 
-        {/* Sidebar */}
         <div className="space-y-4">
           <Card>
             <CardBody className="space-y-3">
@@ -116,6 +126,7 @@ export default function AssetDetail() {
               >
                 {available ? "Request booking" : "Currently unavailable"}
               </Button>
+
               <Button
                 variant="secondary"
                 className="w-full"
@@ -124,6 +135,7 @@ export default function AssetDetail() {
               >
                 View QR code
               </Button>
+
               <Button
                 variant="ghost"
                 className="w-full"
@@ -151,20 +163,27 @@ export default function AssetDetail() {
         </div>
       </div>
 
-      {bookOpen && <BookingModal asset={asset} open={bookOpen} onClose={() => setBookOpen(false)} />}
+      {bookOpen && (
+        <BookingModal asset={asset} open={bookOpen} onClose={() => setBookOpen(false)} />
+      )}
 
-      {/* QR modal */}
       <Modal open={qrOpen} onClose={() => setQrOpen(false)} title="Asset QR Code" size="sm">
         <div className="flex flex-col items-center gap-3 py-2">
           {qr.isLoading ? (
             <Spinner />
           ) : (
-            <img src={qr.data} alt="QR code" className="h-56 w-56 rounded-lg border border-slate-200" />
+            <img
+              src={qr.data}
+              alt="QR code"
+              className="h-56 w-56 rounded-lg border border-slate-200 bg-white object-contain p-2"
+            />
           )}
           <p className="text-center text-sm text-slate-500">
             Scan during issue & return to instantly identify <strong>{asset.name}</strong>.
           </p>
-          <code className="rounded bg-slate-100 px-2 py-1 text-xs text-slate-500">{asset.qrCode}</code>
+          <code className="rounded bg-slate-100 px-2 py-1 text-xs text-slate-500">
+            {asset.qrCode}
+          </code>
         </div>
       </Modal>
 
@@ -178,7 +197,15 @@ export default function AssetDetail() {
   );
 }
 
-function Info({ label, value, icon }: { label: string; value: string; icon?: React.ReactNode }) {
+function Info({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string;
+  icon?: ReactNode;
+}) {
   return (
     <div>
       <p className="text-xs text-slate-400">{label}</p>
@@ -244,6 +271,7 @@ function ReportIssueModal({
             <option value="REPAIR">Needs repair</option>
           </Select>
         </Field>
+
         <Field label="Description">
           <Textarea
             rows={4}

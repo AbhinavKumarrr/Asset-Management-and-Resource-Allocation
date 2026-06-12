@@ -17,11 +17,11 @@ export function Field({
   children: ReactNode;
 }) {
   return (
-    <div>
-      <label className="label">{label}</label>
+    <div className="space-y-1.5">
+      <label className="block text-sm font-medium text-slate-700">{label}</label>
       {children}
-      {hint && !error && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
-      {error && <p className="mt-1 text-xs text-rose-600">{error}</p>}
+      {hint && !error && <p className="text-xs text-slate-400">{hint}</p>}
+      {error && <p className="text-xs text-rose-600">{error}</p>}
     </div>
   );
 }

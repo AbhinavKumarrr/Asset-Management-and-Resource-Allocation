@@ -10,6 +10,7 @@ build/
 
 # Environment
 .env
+.env.example
 .env.local
 **/.env
 !**/.env.example
@@ -31,6 +32,9 @@ logs/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Documentation
+docs/
 
 # Misc
 coverage/

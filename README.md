@@ -97,7 +97,7 @@ The seed script creates ready-to-use accounts (also available via the
 - **In-app Notifications** — real-time bell with unread counts for approvals, rejections, issues and returns.
 - **Audit Logs** — every significant action (asset/category/booking lifecycle) is recorded with actor, entity and timestamp.
 - **QR Code Operations** — generate a QR code per asset and look assets up by scanned code.
-- **Asset Health Tracking** — damage reports & maintenance records with condition/status updates and resolution.
+- **Asset Health Tracking** — damage reports & maintenance records with condition/status update and resolution.
 - **Advanced Analytics** — utilization rates and trend analysis.
 
 ---

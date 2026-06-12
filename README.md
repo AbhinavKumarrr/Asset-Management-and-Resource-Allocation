@@ -176,3 +176,5 @@ The data layer is fully abstracted via Prisma. To use PostgreSQL:
 ## 📄 Author
 
 Abhinav Kumar
+
+---

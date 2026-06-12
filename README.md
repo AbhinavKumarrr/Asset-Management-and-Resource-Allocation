@@ -7,6 +7,12 @@ event infrastructure.
 
 ---
 
+🎥 Demo Video:
+https://drive.google.com/file/d/1hCbPZENeFoDWyz0i6Q4rBroEUtoB3ur1/view?usp=sharing
+
+📄 Project Report:
+https://drive.google.com/file/d/1Mlr9fULizAGHC9_JVTkkVDWUxD-z61aJ/view?usp=sharing
+
 ## ✨ Overview
 
 Organizations rely on shared resources that are easy to lose track of when managed
@@ -28,18 +34,17 @@ overbooking.
 
 | Layer        | Technology |
 |--------------|------------|
-| **Frontend** | React 18, TypeScript, Vite, Tailwind CSS, React Router, TanStack Query, Recharts, Lucide icons |
-| **Backend**  | Node.js, Express, TypeScript, Zod validation |
+| **Frontend** | React 18, TypeScript, Vite, Tailwind CSS, React Router, Recharts |
+| **Backend**  | Node.js, Express, TypeScript |
 | **Database** | Prisma ORM with SQLite (zero-config); PostgreSQL-ready |
-| **Auth**     | JWT (stateless), bcrypt password hashing, role-based access control |
-| **Extras**   | QR code generation (`qrcode`), Helmet, CORS, request logging |
-| **DevOps**   | Docker + Docker Compose, nginx (frontend), multi-stage builds |
+| **Auth**     | JWT (stateless), role-based access control |
+| **Extras**   | QR code generation (`qrcode`), CORS, request logging |
 
 ---
 
 ## 🚀 Quick Start
 
-### Option A — Local development (recommended for the demo)
+### Option A — Local development
 
 ```bash
 # 1. Install dependencies (root tooling + both apps)
@@ -56,9 +61,7 @@ cd ..
 npm run dev
 ```
 
-> **Tip:** the very first `npm run db:setup` downloads Prisma's database engine.
-> On a restricted corporate network this download can be blocked by a TLS proxy —
-> if so, run it on a personal/home network, or use the Docker route (Option B).
+> `npm run db:setup` downloads Prisma's database engine.
 
 - Frontend: **http://localhost:5173**
 - Backend API: **http://localhost:4000** (health check at `/api/health`)
@@ -67,17 +70,6 @@ The Vite dev server proxies `/api` to the backend automatically, so no extra
 configuration is needed.
 
 > You can also run the two apps separately: `npm run dev:server` and `npm run dev:client`.
-
-### Option B — Docker (one command)
-
-```bash
-docker compose up --build
-```
-
-Then open **http://localhost:8080**. The backend applies the schema and seeds demo
-data automatically on first boot (data persists in a named volume).
-
----
 
 ## 👤 Demo Accounts
 
@@ -95,7 +87,6 @@ The seed script creates ready-to-use accounts (also available via the
 
 ## ✅ Feature List
 
-### Core (mandatory)
 - **Authentication** — register, login, JWT sessions, role-based routing (Admin / User).
 - **Inventory Management** — admins add, edit, delete, and categorize assets; manage quantities, status and condition.
 - **Asset Discovery & Booking** — browse, search, filter and sort the catalog; view live availability; request assets for date ranges. Over-booking is blocked.
@@ -103,13 +94,10 @@ The seed script creates ready-to-use accounts (also available via the
 - **Issue & Return Management** — issue approved bookings, track due dates, record returns; inventory counts update automatically. Overdue loans are flagged.
 - **Analytics Dashboard** — summary cards plus bar / pie / line charts (most-used assets, category distribution, utilization, 14-day booking trend).
 - **Borrowing History** — users see their full history; admins see system-wide activity.
-
-### Bonus (implemented)
 - **In-app Notifications** — real-time bell with unread counts for approvals, rejections, issues and returns.
 - **Audit Logs** — every significant action (asset/category/booking lifecycle) is recorded with actor, entity and timestamp.
 - **QR Code Operations** — generate a QR code per asset and look assets up by scanned code.
 - **Asset Health Tracking** — damage reports & maintenance records with condition/status updates and resolution.
-- **Dockerized Deployment** — `docker compose up` brings up the full stack behind nginx.
 - **Advanced Analytics** — utilization rates and trend analysis.
 
 ---
@@ -138,9 +126,6 @@ The seed script creates ready-to-use accounts (also available via the
 │       ├── pages/           # Routed pages (+ admin/)
 │       ├── lib/             # API client, formatting helpers
 │       └── types.ts         # Shared domain types
-├── docs/
-│   └── DESIGN.md            # Design document (architecture, ERD, schema, API)
-├── docker-compose.yml
 └── README.md
 ```
 
@@ -148,10 +133,7 @@ The seed script creates ready-to-use accounts (also available via the
 
 ## 🔌 API Summary
 
-All endpoints are prefixed with `/api`. Protected routes require an
-`Authorization: Bearer <token>` header. See [`docs/DESIGN.md`](docs/DESIGN.md) for the
-full reference.
-
+All endpoints are prefixed with `/api`.
 | Area | Endpoints |
 |------|-----------|
 | Auth | `POST /auth/register`, `POST /auth/login`, `GET /auth/me` |
@@ -172,9 +154,6 @@ The data layer is fully abstracted via Prisma. To use PostgreSQL:
 1. In `server/prisma/schema.prisma`, set `provider = "postgresql"`.
 2. Set `DATABASE_URL="postgresql://user:pass@host:5432/assetflow"`.
 3. Run `npm run db:setup`.
-
-A ready-to-enable `db` service is included (commented) in `docker-compose.yml`.
-
 ---
 
 ## 📜 Available Scripts

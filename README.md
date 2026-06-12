@@ -5,8 +5,6 @@ approval workflows, and gaining operational visibility — built for the Cultura
 Council's pool of cameras, lighting, audio, costumes, props, recording gear and
 event infrastructure.
 
-> Submission for **Cult Open Projects 2026 — Smart Asset Management and Resource Allocation Platform**.
-
 ---
 
 ## ✨ Overview
@@ -40,10 +38,6 @@ overbooking.
 ---
 
 ## 🚀 Quick Start
-
-### Prerequisites
-- **Node.js 18+** and **npm** (for the local route), **or**
-- **Docker + Docker Compose** (for the containerized route).
 
 ### Option A — Local development (recommended for the demo)
 
@@ -92,10 +86,10 @@ The seed script creates ready-to-use accounts (also available via the
 
 | Role  | Email                   | Password   |
 |-------|-------------------------|------------|
-| Admin | `admin@assetflow.dev`   | `admin123` |
-| User  | `ananya@assetflow.dev`  | `user123`  |
-| User  | `rohan@assetflow.dev`   | `user123`  |
-| User  | `isha@assetflow.dev`    | `user123`  |
+| Admin | `abhinav@iitr.ac.in`    | `admin123` |
+| User  | `aditya@iitr.ac.in`    | `user123`  |
+| User  | `kalpesh@iitr.ac.in`    | `user123`  |
+| User  | `krish@iitr.ac.in`    | `user123`  |
 
 ---
 
@@ -200,6 +194,6 @@ A ready-to-enable `db` service is included (commented) in `docker-compose.yml`.
 
 ---
 
-## 📄 License
+## 📄 Author
 
-Built for educational purposes as part of Cult Open Projects 2026.
+Abhinav Kumar
